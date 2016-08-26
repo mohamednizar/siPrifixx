@@ -10,6 +10,7 @@
             decimal: 1,
             popUp: false,
         }, options);
+        var maxDigits = settings.maxDigits;
 
         /**
          * create a duplicate of value to use inside SI prifixx function
@@ -26,10 +27,16 @@
 
                 number = num;
             }
+        }else if (typeof value === 'number'){
+                number = value
         }
 
+        var data_max = this.attr('data-max-digit');
+        if(typeof data_max !== 'undefined'){
+            maxDigits = data_max;
+        }
 
-        var checkNumber = typeof number !== 'undefined' && !isNaN(number) && (number).toString().length > settings.maxDigits;
+        var checkNumber = typeof number !== 'undefined' && !isNaN(number) && (number).toString().length > maxDigits;
 
         /**
          * setting tooltip popup
@@ -135,8 +142,8 @@ var numberWithCommas = function (value) {
         } else {
             return number
         }
-    } else {
-        return number
+    } else if (typeof value === 'number') {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
 };
